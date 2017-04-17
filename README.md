@@ -36,7 +36,8 @@ To use the Icon Array, use `draw_array()` with the desired instructions in an ob
 For example, calling `draw_array({divID: "my_div", count: 2.5, personFill: "orange"})` will draw an icon array on a div with id = "my_div", and will fill in 2.5 icons colored orange
 
 # Notes
-`draw_array()` works by appending svg tags to draw the array. If you make multiple calls to `draw_array()` on the same Div, it will append multiple Icon Arrays. If you want to avoid this behavior, you will have to clear the html of the div prior to drawing a new icon array
+  * `draw_array()` works by appending svg tags to draw the array. If you make multiple calls to `draw_array()` on the same Div, it will append multiple Icon Arrays. If you want to avoid this behavior, you will have to clear the html of the div prior to drawing a new icon array
+  * For now, this object uses D3.js to draw the array. In order to use this object you must include a script source to D3
 
 
  
