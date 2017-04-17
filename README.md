@@ -25,7 +25,7 @@ iconarray.js defines a functio called `draw_array` that is used to draw the icon
        count [int|float]: the number of icons that will be filled (this can be an integer or a float),
        gridWidth (optional)[int]: the number of icons spanning horizontally (defaults to 10),
        gridHeight (optional)[int]: the number of icons spanning vertivally (defaults to 10),
-       personFill (optional)[String]: the color that the icons will be filled with (default is steelblue),
+       personFill (optional)[String]: the color that the icons will be filled with (default is "steelblue"),
        backgroundFill (optional)[String]: background color of the web page (defaults to "#FFFFFF"),
        key (optional)[boolean]: set to true to show key, false to hide (defaults to true)
 }
