@@ -33,7 +33,7 @@ iconarray.js defines a functio called `draw_array` that is used to draw the icon
 
 To use the Icon Array, use `draw_array()` with the desired instructions in an object.
 
-#Notes
+# Notes
 `draw_array()` works by appending svg tags to draw the array. If you make multiple calls to `draw_array()` on the same Div, it will append multiple Icon Arrays. If you want to avoid this behavior, you will have to clear the html of the div prior to drawing a new icon array
 
 
