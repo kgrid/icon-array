@@ -125,7 +125,7 @@ function draw_array(instr)
         xCoordMultiplier = 0;
         yCoord += yDist;
     }
-    if (instr.key == true)
+    if (instr.key === true)
 	 {
         yCoord += 25;
 
