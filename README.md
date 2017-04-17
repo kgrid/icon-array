@@ -18,7 +18,7 @@ To include the Icon Array locally, download the iconarray.js file into your proj
 make sure to use the proper path to the file
 
 # How to use
-iconarray.js defines a functio called `draw_array` that is used to draw the icon array. This function takes a JavaScript Object called instr as its parameter to determine how to draw the visual. This object should have the following keys:
+iconarray.js defines a function called `draw_array` that is used to draw the icon array. This function takes a JavaScript Object called instr as its parameter to determine how to draw the visual. This object should have the following keys:
 ```
 {
        divID [String]: the ID of the HTML tag under which the array will be drawn,
