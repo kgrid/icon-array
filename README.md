@@ -23,21 +23,22 @@ iconarray.js defines a function called `draw_array` that is used to draw the ico
 {
        divID [String]: the ID of the HTML tag under which the array will be drawn,
        count [int|float]: the number of icons that will be filled (this can be an integer or a float),
-       gridWidth (optional)[int]: the number of icons spanning horizontally (defaults to 10),
-       gridHeight (optional)[int]: the number of icons spanning vertivally (defaults to 10),
-       personFill (optional)[String]: the color that the icons will be filled with (default is "steelblue"),
-       backgroundFill (optional)[String]: background color of the web page (defaults to "#FFFFFF"),
+       gridWidth [int]: the number of icons spanning horizontally (defaults to 10),
+       gridHeight [int]: the number of icons spanning vertivally (defaults to 10),
+       personFill [String]: the color that the icons will be filled with (default is "steelblue"),
+       backgroundFill [String]: background color of the web page (defaults to "#FFFFFF"),
        key (optional)[boolean]: set to true to show key, false to hide (defaults to true)
 }
 ```
 
 To use the Icon Array, use `draw_array()` with the desired instructions in an object.
 
-For example, calling `draw_array({divID: "my_div", count: 2.5, personFill: "orange"})` will draw an icon array on a div with id = "my_div", and will fill in 2.5 icons colored orange
+For example, calling
+```
+draw_array({divID: "id", count: 2.5, gridWidth: 10, gridHeight: 10,backgroundFill: "white", personFill: "steelblue"})
+``` 
+will draw an icon array on a div with id = "my_div", and will fill in 2.5 icons colored orange
 
 # Notes
   * `draw_array()` works by appending svg tags to draw the array. If you make multiple calls to `draw_array()` on the same Div, it will append multiple Icon Arrays. If you want to avoid this behavior, you will have to clear the html of the div prior to drawing a new icon array
   * For now, this object uses D3.js to draw the array. In order to use this object you must include a script source to [D3](https://d3js.org/)
-
-
- 
