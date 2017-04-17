@@ -1,7 +1,7 @@
 //divID , count, gridWidth = 10, gridHeight = 10, personFill = "steelblue", backgroundFill = "#FFFFFF", key=true
 
 /**
- * draws icon array visual
+ * draws icon array visual by appending svg tags
  * @param  {Object} instr obect containing options for icon array
  * instr should contain the following keys
  * {
