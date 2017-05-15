@@ -133,7 +133,6 @@ var draw_array = (function()
             xCoordMultiplier = 0;
             yCoord += yDist;
         }
-        console.log(3)
         if (key && h > 3)
     	 {
             yCoord += 25;
