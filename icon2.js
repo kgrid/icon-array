@@ -159,3 +159,53 @@ var draw_array = (function()
 
 })();
 
+
+
+/**
+ * @param {String} divID 
+ * @param {Number} interval number of seconds in between each 
+ * @param {array} data
+ * @param {object} options 
+ */
+var repeat_array = (function()
+{
+    var index = 0
+
+    function clone_object(obj) 
+    {
+        if (null == obj || "object" != typeof obj) return {};
+        var copy = obj.constructor();
+        for (var attr in obj) {
+            if (obj.hasOwnProperty(attr)) 
+                copy[attr] = obj[attr];
+        }
+        return copy;
+    }
+
+    return function(divID, interval, data, options)
+    {
+        iconOptions = clone_object(options)
+        iconOptions.divID = divID
+        iconOptions.count = data[index]
+        draw_array(iconOptions)
+        index += 1
+        setInterval(function()
+        {   
+            //set index back to beginning of data array if it gets past the end
+            console.log("index:", index)
+            if(index === data.length)
+            {
+                index = 0
+            }
+            //move on to next data in the list
+            iconOptions.count = data[index]
+            //clear the html
+            //right now using vanilla js, going to change when this no 
+            //  longer uses d3js
+            document.getElementById(divID).innerHTML = ""
+            draw_array(iconOptions)
+            index += 1
+        }, interval * 1000)
+    }
+    
+})();
