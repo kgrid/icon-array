@@ -80,11 +80,18 @@ var draw_array = (function()
     //-----BEGIN-----
     return function(instr)
     {
+        var h = instr.gridHeight ? instr.gridHeight : defaultHeight
+        var w = instr.gridWidth ? instr.gridWidth : defaultWidth
         var height = instr.gridHeight ? (45 * instr.gridHeight + 29) : (45 * defaultHeight + 29)
+        console.log(height)
         var width = instr.gridWidth ? (44 * instr.gridWidth) : (44 * defaultWidth + 29)
+        console.log(width)
         var key = instr.key ? true : false
+        console.log(key)
         var fill = instr.personFill ? instr.personFill : "steelblue"
+        console.log(fill)
         var backgroundFill = instr.backgroundFill ? instr.backgroundFill : "#ffffff"
+        console.log(backgroundFill)
 
         //check if there should be a partial fill
         var decimal = instr.count - Math.floor(instr.count);
@@ -102,16 +109,16 @@ var draw_array = (function()
         var yDist = 45
         var xCoordMultiplier = 0;
 
-        var numGrey = (instr.gridWidth * instr.gridHeight) - Math.ceil(instr.count);
+        var numGrey = (h * w) - Math.ceil(instr.count);
         console.log(numGrey);
 
 
 
         var c = 1;
 
-        for (var i = 0; i < instr.gridHeight; ++i)
+        for (var i = 0; i < h; ++i)
     	{
-            for (var j = 0; j < instr.gridWidth; ++j, xCoordMultiplier++, c++)
+            for (var j = 0; j < w; ++j, xCoordMultiplier++, c++)
     		{
                 if (c > numGrey && partial)
     			{
@@ -126,25 +133,26 @@ var draw_array = (function()
             xCoordMultiplier = 0;
             yCoord += yDist;
         }
-        if (key)
+        console.log(3)
+        if (key && h > 3)
     	 {
             yCoord += 25;
 
             var txt = "Number of people affected: " + instr.count;
 
-            draw_person(svgContainer, "#cccccc", path, instr.gridWidth * xDist + 30, (instr.gridHeight / 2 * personHeight) - 44);
+            draw_person(svgContainer, "#cccccc", path, w * xDist + 30, (h / 2 * personHeight) - 44);
 
             svgContainer.append("text")
-                .attr("x", instr.gridWidth * xDist + 32)
-                .attr("y", instr.gridHeight / 2 * personHeight + 20)
+                .attr("x", w * xDist + 32)
+                .attr("y", h / 2 * personHeight + 20)
                 .attr("fill", "black")
                 .text("Not affected");
 
-            draw_person(svgContainer, fillColor(numGrey + 1, numGrey), path, instr.gridHeight * xDist + 30, instr.gridHeight / 2 * personHeight + 44)
+            draw_person(svgContainer, fill, path, w * xDist + 30, h / 2 * personHeight + 44)
 
             svgContainer.append("text")
-                .attr("x", instr.gridWidth * xDist + 32)
-                .attr("y", instr.gridHeight / 2 * personHeight + 110)
+                .attr("x", w * xDist + 32)
+                .attr("y", h / 2 * personHeight + 110)
                 .attr("fill", "black")
                 .text("Affected");
         }
