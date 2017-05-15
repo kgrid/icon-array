@@ -161,11 +161,18 @@ var draw_array = (function()
 
 
 
-/**
- * @param {String} divID 
- * @param {Number} interval number of seconds in between each 
- * @param {array} data
- * @param {object} options 
+/** GIF-like functionality for icon array. Cycles through a list of 
+ *  data and changes the visual
+ * @param {String} divID ID of the div you want the visual to show up in
+ * @param {Number} interval number of seconds in between each icon array update
+ * @param {array} data  array of numbers representing different counts
+ * @param {object} options options for the icon array
+ * example:
+ * calling repeat_array("id2", 1, [1, 5, 7.25, 10.5, 23.2], {key: true}) will
+ * make a gif-like icon array visual that cycles through the counts 1, 5, 7.25...
+ * and draws to a div with id of "id2". the {key: true} options object makes the 
+ * key show up in the visual
+)
  */
 var repeat_array = (function()
 {
