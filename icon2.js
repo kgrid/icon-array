@@ -168,10 +168,10 @@ var draw_array = (function()
  * @param {array} data  array of numbers representing different counts
  * @param {object} options options for the icon array
  * example:
- * calling repeat_array("id2", 1, [1, 5, 7.25, 10.5, 23.2], {key: true}) will
+ * calling repeat_array("id2", 2, [1, 5, 7.25, 10.5, 23.2], {key: true}) will
  * make a gif-like icon array visual that cycles through the counts 1, 5, 7.25...
- * and draws to a div with id of "id2". the {key: true} options object makes the 
- * key show up in the visual
+ * every 2 seconds and draws to a div with id of "id2". the {key: true} options 
+ * object makes the key show up in the visual
 )
  */
 var repeat_array = (function()
