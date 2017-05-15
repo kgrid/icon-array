@@ -171,7 +171,7 @@ var repeat_array = (function()
 {
     var index = 0
 
-    function clone_object(obj) 
+    var clone_object = function(obj) 
     {
         if (null == obj || "object" != typeof obj) return {};
         var copy = obj.constructor();
