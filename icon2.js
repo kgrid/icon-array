@@ -56,15 +56,17 @@ var IconArray = (function () {
             .attr("transform", "translate(" + x + ", " + y + ")");
     }
 
-    var draw_partial_person = function(svgContainer, fill, path, x, y, portion, backgroundFill) {
+    var draw_partial_person = function(svgContainer, fill, path, x, y, portion, backgroundFill, type="icon-body") {
 
         svgContainer.append("rect")
+            .attr("class", type)
             .attr("height", personHeight)
             .attr("width", personWidth)
             .attr("fill", fill)
             .attr("transform", "translate(" + x + ", " + y + ")");
 
         svgContainer.append("rect")
+            .attr("class", type)
             .attr("height", personHeight * (1 - portion))
             .attr("width", personWidth)
             .attr("fill", "#cccccc")
@@ -77,7 +79,7 @@ var IconArray = (function () {
             .attr("transform", "translate(" + x + ", " + y + ")");
     }
 
-    var isDecimal = function(num)
+    var hasDecimal = function(num)
     {
         return (num - Math.floor(num) > 0)
     }
@@ -100,21 +102,41 @@ var IconArray = (function () {
      * @param {string} divID ID of the div containing the icon array
      * @param {number} totalIcons total number of icons in the array
      * @param {number} numCurrentFilled number of icons currently filled
-     * @param {number} numToFill new value that icon array will represent
+     * @param {number} newCount new value that icon array will represent
      * @param {string} fillColor color to fill the icons when updating
      * @return {number} the number of icons that are filled after the update
      */
-    var update_array = function(divID, totalIcons, numCurrentFilled, numToFill,
+    var update_array = function(divID, totalIcons, numCurrentFilled, newCount,
                         fillColor)
     {
+        var numToFill = Math.ceil(newCount)
         if(numToFill < numCurrentFilled)
         {
             //recolor all the ones after to be grey
-            $("#" + divID + " .icon-body").slice(0, totalIcons - numToFill)
-                .attr("fill", "#cccccc")
+            $("#" + divID + " .icon-body").attr("fill", "#cccccc")
         }
         //console.log("numFilled: ", numFilled)
-        $("#" + divID + " .icon-body").slice(-1 * numToFill).attr("fill", fillColor)
+        $("#" + divID + " .icon-body").slice(-1 * Math.floor(newCount)).attr("fill", fillColor)
+        if(hasDecimal(newCount))
+        {
+            //get position of spot to put partial fill
+            //draw partial icon in that spot
+
+            //this will get the last icon which will need to be filled partially
+            var iconIndex = totalIcons - numToFill
+
+            var infoString = $("#" + divID + " .icon-body").eq(iconIndex)
+                                .attr("transform").split(",")
+
+            var xPos =  parseInt(infoString[0].replace(/[^0-9\.]/g, ''))
+            var yPos = parseInt(infoString[1].replace(/[^0-9\.]/g, ''))
+       
+
+            draw_partial_person(d3.select("#" + divID + " svg"), fillColor, path, xPos,
+                yPos, newCount - Math.floor(newCount), "white")
+            console.log("WIDTH AND HEIGHT: ", xPos, yPos)
+
+        }
         return numToFill
     }
 
@@ -223,9 +245,8 @@ var IconArray = (function () {
                     index = 0
                 }
                // console.log("index::: ", index)
-                var numIconsTofill = Math.ceil(data[index])
                 numIconsCurrentlyFilled = update_array(divID, totalIcons,
-                    numIconsCurrentlyFilled, numIconsTofill, fill)
+                    numIconsCurrentlyFilled, data[index], fill)
                 index += 1
 
             }, interval * 1000)         
