@@ -176,8 +176,6 @@ var draw_array = (function()
  */
 var repeat_array = (function()
 {
-    var index = 0
-
     var clone_object = function(obj) 
     {
         if (null == obj || "object" != typeof obj) return {};
@@ -191,6 +189,7 @@ var repeat_array = (function()
 
     return function(divID, interval, data, options)
     {
+        var index = 0
         iconOptions = clone_object(options)
         iconOptions.divID = divID
         iconOptions.count = data[index]
