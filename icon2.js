@@ -26,12 +26,12 @@ var IconArray = (function () {
 
     var personHeight = 39;
     var personWidth = 19;
-
     var defaultHeight = 10
     var defaultWidth = 10
+    var defaultFill = "steelblue"
 
     //-----FUNCTIONS-----
-    var initialize_svg = function (divID, width, height, backgroundFill) 
+    var initialize_svg = function(divID, width, height, backgroundFill) 
     {
         var svgContainer = d3.selectAll("#" + divID).append("svg")
             .attr("fill", backgroundFill)
@@ -41,7 +41,7 @@ var IconArray = (function () {
         return svgContainer;
     }
 
-    var draw_person = function (svgContainer, fill, path, x, y, backgroundFill, type="in-body") 
+    var draw_person = function(svgContainer, fill, path, x, y, backgroundFill, type="icon-body") 
     {
         svgContainer.append("rect")
             .attr("class", type)
@@ -56,7 +56,7 @@ var IconArray = (function () {
             .attr("transform", "translate(" + x + ", " + y + ")");
     }
 
-    var draw_partial_person = function (svgContainer, fill, path, x, y, portion, backgroundFill) {
+    var draw_partial_person = function(svgContainer, fill, path, x, y, portion, backgroundFill) {
 
         svgContainer.append("rect")
             .attr("height", personHeight)
@@ -77,7 +77,12 @@ var IconArray = (function () {
             .attr("transform", "translate(" + x + ", " + y + ")");
     }
 
-    var clone_object = function (obj) 
+    var isDecimal = function(num)
+    {
+        return (num - Math.floor(num) > 0)
+    }
+
+    var clone_object = function(obj) 
     {
         if (null == obj || "object" != typeof obj) return {};
         var copy = obj.constructor();
@@ -89,9 +94,33 @@ var IconArray = (function () {
         return copy;
     }
 
+    /**
+     * Updates an existing Icon Array to reflect a new value
+     * 
+     * @param {string} divID ID of the div containing the icon array
+     * @param {number} totalIcons total number of icons in the array
+     * @param {number} numCurrentFilled number of icons currently filled
+     * @param {number} numToFill new value that icon array will represent
+     * @param {string} fillColor color to fill the icons when updating
+     * @return {number} the number of icons that are filled after the update
+     */
+    var update_array = function(divID, totalIcons, numCurrentFilled, numToFill,
+                        fillColor)
+    {
+        if(numToFill < numCurrentFilled)
+        {
+            //recolor all the ones after to be grey
+            $("#" + divID + " .icon-body").slice(0, totalIcons - numToFill)
+                .attr("fill", "#cccccc")
+        }
+        //console.log("numFilled: ", numFilled)
+        $("#" + divID + " .icon-body").slice(-1 * numToFill).attr("fill", fillColor)
+        return numToFill
+    }
+
     //-----BEGIN-----
     return {
-        draw_array: function (instr) 
+        draw_array: function(instr) 
         {
             var h = instr.gridHeight ? instr.gridHeight : defaultHeight
             var w = instr.gridWidth ? instr.gridWidth : defaultWidth
@@ -101,7 +130,7 @@ var IconArray = (function () {
             console.log(width)
             var key = instr.key ? true : false
             console.log(key)
-            var fill = instr.personFill ? instr.personFill : "steelblue"
+            var fill = instr.personFill ? instr.personFill : defaultFill
             console.log(fill)
             var backgroundFill = instr.backgroundFill ? instr.backgroundFill : "#ffffff"
             console.log(backgroundFill)
@@ -175,7 +204,8 @@ var IconArray = (function () {
         gif_array: function(divID, interval, data, options)
         {
             var width = options.gridWidth ? options.gridWidth : defaultWidth
-            var height = options.gridWidth ? options.gridWidth : defaultHeight
+            var height = options.gridHeight ? options.gridHeight : defaultHeight
+            var fill = options.personFill ? options.personFill : defaultFill
             var totalIcons = width * height
         
             var index = 0
@@ -184,8 +214,7 @@ var IconArray = (function () {
             iconOptions.count = data[index]
             IconArray.draw_array(iconOptions)
             index += 1   
-            var previousNumFilled = null
-            var numFilled = null
+            var numIconsCurrentlyFilled = data[0]
 
             setInterval(function()
              {
@@ -193,16 +222,10 @@ var IconArray = (function () {
                 {
                     index = 0
                 }
-                console.log("index::: ", index)
-                previousNumFilled = numFilled
-                numFilled = data[index]
-                if(numFilled && numFilled < previousNumFilled)
-                {
-                    $(".in-body").slice(0, numFilled).attr("fill", "#cccccc")
-                }
-                var numGrey = totalIcons - numFilled
-                console.log("numFilled: ", numFilled)
-                $(".in-body").slice(-1 * numFilled).attr("fill", "green")
+               // console.log("index::: ", index)
+                var numIconsTofill = Math.ceil(data[index])
+                numIconsCurrentlyFilled = update_array(divID, totalIcons,
+                    numIconsCurrentlyFilled, numIconsTofill, fill)
                 index += 1
 
             }, interval * 1000)         
