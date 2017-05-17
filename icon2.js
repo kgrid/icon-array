@@ -56,17 +56,19 @@ var IconArray = (function () {
             .attr("transform", "translate(" + x + ", " + y + ")");
     }
 
-    var draw_partial_person = function(svgContainer, fill, path, x, y, portion, backgroundFill, type="icon-body") {
+    var draw_partial_person = function(svgContainer, fill, path, x, y, portion, 
+                                backgroundFill, type="partial-icon-body") 
+    {
 
         svgContainer.append("rect")
-            .attr("class", type)
+            .attr("class", type + "-bottom")
             .attr("height", personHeight)
             .attr("width", personWidth)
             .attr("fill", fill)
             .attr("transform", "translate(" + x + ", " + y + ")");
 
         svgContainer.append("rect")
-            .attr("class", type)
+            .attr("class", type + "-top")
             .attr("height", personHeight * (1 - portion))
             .attr("width", personWidth)
             .attr("fill", "#cccccc")
@@ -96,6 +98,34 @@ var IconArray = (function () {
         return copy;
     }
 
+    var remove_partial = function(divID)
+    {
+        // var posString = $("#" + divID + " .partial-icon-body-bottom")
+        //     .attr("transform").split(",")
+
+        // var xPos = parseInt(posString[0].replace(/[^0-9\.]/g, ''))
+        // var yPos = parseInt(posString[1].replace(/[^0-9\.]/g, ''))
+
+        //remove the two rectangles
+        $("#" + divID + " .partial-icon-body-top").remove()
+        $("#" + divID + " .partial-icon-body-bottom").remove()
+        
+        
+
+        
+    }
+
+    var get_icon_position = function(divID, index)
+    {
+        var infoString = $("#" + divID + " .icon-body").eq(index)
+                                .attr("transform").split(",")
+
+        var xPos = parseInt(infoString[0].replace(/[^0-9\.]/g, ''))
+        var yPos = parseInt(infoString[1].replace(/[^0-9\.]/g, ''))
+
+        return [xPos, yPos]
+    }
+
     /**
      * Updates an existing Icon Array to reflect a new value
      * 
@@ -109,32 +139,30 @@ var IconArray = (function () {
     var update_array = function(divID, totalIcons, numCurrentFilled, newCount,
                         fillColor)
     {
-        var numToFill = Math.ceil(newCount)
+
+        var numToFill = Math.floor(newCount)
         if(numToFill < numCurrentFilled)
         {
             //recolor all the ones after to be grey
             $("#" + divID + " .icon-body").attr("fill", "#cccccc")
         }
-        //console.log("numFilled: ", numFilled)
-        $("#" + divID + " .icon-body").slice(-1 * Math.floor(newCount)).attr("fill", fillColor)
+
+        remove_partial(divID)
+        //fill the icons
+        $("#" + divID + " .icon-body").slice(-1 * numToFill).attr("fill", fillColor)
+
         if(hasDecimal(newCount))
         {
-            //get position of spot to put partial fill
-            //draw partial icon in that spot
-
             //this will get the last icon which will need to be filled partially
-            var iconIndex = totalIcons - numToFill
-
-            var infoString = $("#" + divID + " .icon-body").eq(iconIndex)
-                                .attr("transform").split(",")
-
-            var xPos =  parseInt(infoString[0].replace(/[^0-9\.]/g, ''))
-            var yPos = parseInt(infoString[1].replace(/[^0-9\.]/g, ''))
-       
+            var positions = get_icon_position(divID, totalIcons - numToFill - 1)
+            var xPos = positions[0]
+            var yPos = positions[1]
 
             draw_partial_person(d3.select("#" + divID + " svg"), fillColor, path, xPos,
                 yPos, newCount - Math.floor(newCount), "white")
             console.log("WIDTH AND HEIGHT: ", xPos, yPos)
+
+            numToFill += 2
 
         }
         return numToFill
@@ -176,8 +204,6 @@ var IconArray = (function () {
             var numGrey = (h * w) - Math.ceil(instr.count);
             console.log(numGrey);
 
-
-
             var c = 1;
 
             for (var i = 0; i < h; ++i) 
@@ -204,7 +230,7 @@ var IconArray = (function () {
                 var txt = "Number of people affected: " + instr.count;
 
                 draw_person(svgContainer, "#cccccc", path, w * xDist + 30, 
-                    (h / 2 * personHeight) - 44, backgroundFill,  "key");
+                    (h / 2 * personHeight) - 44, backgroundFill, "key");
 
                 svgContainer.append("text")
                     .attr("x", w * xDist + 32)
@@ -225,16 +251,15 @@ var IconArray = (function () {
 
         gif_array: function(divID, interval, data, options)
         {
-            var width = options.gridWidth ? options.gridWidth : defaultWidth
-            var height = options.gridHeight ? options.gridHeight : defaultHeight
-            var fill = options.personFill ? options.personFill : defaultFill
-            var totalIcons = width * height
-        
             var index = 0
             var iconOptions = clone_object(options)
             iconOptions.divID = divID
             iconOptions.count = data[index]
             IconArray.draw_array(iconOptions)
+            var fill = options.personFill ? options.personFill : defaultFill
+            //total numer of svg rectangles
+            var totalIcons = $("#" + divID + " .icon-body").length
+        
             index += 1   
             var numIconsCurrentlyFilled = data[0]
 
@@ -245,7 +270,7 @@ var IconArray = (function () {
                     index = 0
                 }
                // console.log("index::: ", index)
-                numIconsCurrentlyFilled = update_array(divID, totalIcons,
+               numIconsCurrentlyFilled =  update_array(divID, totalIcons,
                     numIconsCurrentlyFilled, data[index], fill)
                 index += 1
 
@@ -253,7 +278,7 @@ var IconArray = (function () {
         },
 
         repeat_array: function (divID, interval, data, options)
-         {
+        {
             var index = 0
             var iconOptions = clone_object(options)
             iconOptions.divID = divID
