@@ -14,8 +14,8 @@
  *      key [boolean]: set to true to show key, false to hide (defaults to true)
  * }
  */
-var draw_array = (function()
-{
+var IconArray = (function () {
+    "use strict";
     //for drawing svg icon path
     var path = "M0,0v40h22V0H0z M11,0.732c1.755,0,3.177,1.423,3.177,3.177c0,1.755-1.422,3.177-3.177,3.177" +
         "c-1.754,0-3.177-1.422-3.177-3.177C7.823,2.155,9.246,0.732,11,0.732z M18.359,11.884v9.851c0,0.763-0.617,1.381-1.381,1.381" +
@@ -31,8 +31,8 @@ var draw_array = (function()
     var defaultWidth = 10
 
     //-----FUNCTIONS-----
-    var initialize_svg = function(divID, width, height, backgroundFill)
-	{
+    var initialize_svg = function (divID, width, height, backgroundFill) 
+    {
         var svgContainer = d3.selectAll("#" + divID).append("svg")
             .attr("fill", backgroundFill)
             .attr("width", width)
@@ -41,9 +41,10 @@ var draw_array = (function()
         return svgContainer;
     }
 
-    var draw_person = function(svgContainer, fill, path, x, y, backgroundFill)
-	{
+    var draw_person = function (svgContainer, fill, path, x, y, backgroundFill, type="in-body") 
+    {
         svgContainer.append("rect")
+            .attr("class", type)
             .attr("height", personHeight)
             .attr("width", personWidth)
             .attr("fill", fill)
@@ -55,8 +56,7 @@ var draw_array = (function()
             .attr("transform", "translate(" + x + ", " + y + ")");
     }
 
-    var draw_partial_person = function(svgContainer, fill, path, x, y, portion, backgroundFill)
-	{
+    var draw_partial_person = function (svgContainer, fill, path, x, y, portion, backgroundFill) {
 
         svgContainer.append("rect")
             .attr("height", personHeight)
@@ -77,83 +77,162 @@ var draw_array = (function()
             .attr("transform", "translate(" + x + ", " + y + ")");
     }
 
-    //-----BEGIN-----
-    return function(instr)
+    var clone_object = function (obj) 
     {
-        var h = instr.gridHeight ? instr.gridHeight : defaultHeight
-        var w = instr.gridWidth ? instr.gridWidth : defaultWidth
-        var height = instr.gridHeight ? (45 * instr.gridHeight + 29) : (45 * defaultHeight + 29)
-        console.log(height)
-        var width = instr.gridWidth ? (44 * instr.gridWidth) : (44 * defaultWidth + 29)
-        console.log(width)
-        var key = instr.key ? true : false
-        console.log(key)
-        var fill = instr.personFill ? instr.personFill : "steelblue"
-        console.log(fill)
-        var backgroundFill = instr.backgroundFill ? instr.backgroundFill : "#ffffff"
-        console.log(backgroundFill)
-
-        //check if there should be a partial fill
-        var decimal = instr.count - Math.floor(instr.count);
-        if (decimal && decimal < 0.1)
-    	{
-            decimal = 0.1
+        if (null == obj || "object" != typeof obj) return {};
+        var copy = obj.constructor();
+        for (var attr in obj)
+        {
+            if (obj.hasOwnProperty(attr))
+                copy[attr] = obj[attr];
         }
+        return copy;
+    }
 
-        var partial = (decimal != 0) ? true : false;
-        //Make an SVG Container
-        var svgContainer = initialize_svg(instr.divID, width, height, backgroundFill);
+    //-----BEGIN-----
+    return {
+        draw_array: function (instr) 
+        {
+            var h = instr.gridHeight ? instr.gridHeight : defaultHeight
+            var w = instr.gridWidth ? instr.gridWidth : defaultWidth
+            var height = instr.gridHeight ? (45 * instr.gridHeight + 29) : (45 * defaultHeight + 29)
+            console.log(height)
+            var width = instr.gridWidth ? (44 * instr.gridWidth) : (44 * defaultWidth + 29)
+            console.log(width)
+            var key = instr.key ? true : false
+            console.log(key)
+            var fill = instr.personFill ? instr.personFill : "steelblue"
+            console.log(fill)
+            var backgroundFill = instr.backgroundFill ? instr.backgroundFill : "#ffffff"
+            console.log(backgroundFill)
 
-        var xDist = 25;
-        var yCoord = 0;
-        var yDist = 45
-        var xCoordMultiplier = 0;
-
-        var numGrey = (h * w) - Math.ceil(instr.count);
-        console.log(numGrey);
-
-
-
-        var c = 1;
-
-        for (var i = 0; i < h; ++i)
-    	{
-            for (var j = 0; j < w; ++j, xCoordMultiplier++, c++)
-    		{
-                if (c > numGrey && partial)
-    			{
-                    draw_partial_person(svgContainer, (c <= numGrey ? "#cccccc" : fill), 
-                        path, xCoordMultiplier * xDist, yCoord, decimal, backgroundFill);
-                    partial = false;
-                }
-    			else
-                    draw_person(svgContainer, (c <= numGrey? "#cccccc" : fill), 
-                        path, xCoordMultiplier * xDist, yCoord, backgroundFill)
+            //check if there should be a partial fill
+            var decimal = instr.count - Math.floor(instr.count);
+            if (decimal && decimal < 0.1) 
+            {
+                decimal = 0.1
             }
-            xCoordMultiplier = 0;
-            yCoord += yDist;
-        }
-        if (key && h > 3)
-    	 {
-            yCoord += 25;
 
-            var txt = "Number of people affected: " + instr.count;
+            var partial = (decimal != 0) ? true : false;
+            //Make an SVG Container
+            var svgContainer = initialize_svg(instr.divID, width, height, backgroundFill);
 
-            draw_person(svgContainer, "#cccccc", path, w * xDist + 30, (h / 2 * personHeight) - 44);
+            var xDist = 25;
+            var yCoord = 0;
+            var yDist = 45
+            var xCoordMultiplier = 0;
 
-            svgContainer.append("text")
-                .attr("x", w * xDist + 32)
-                .attr("y", h / 2 * personHeight + 20)
-                .attr("fill", "black")
-                .text("Not affected");
+            var numGrey = (h * w) - Math.ceil(instr.count);
+            console.log(numGrey);
 
-            draw_person(svgContainer, fill, path, w * xDist + 30, h / 2 * personHeight + 44)
 
-            svgContainer.append("text")
-                .attr("x", w * xDist + 32)
-                .attr("y", h / 2 * personHeight + 110)
-                .attr("fill", "black")
-                .text("Affected");
+
+            var c = 1;
+
+            for (var i = 0; i < h; ++i) 
+            {
+                for (var j = 0; j < w; ++j, xCoordMultiplier++ , c++) 
+                {
+                    if (c > numGrey && partial) 
+                    {
+                        draw_partial_person(svgContainer, (c <= numGrey ? "#cccccc" : fill),
+                            path, xCoordMultiplier * xDist, yCoord, decimal, backgroundFill);
+                        partial = false;
+                    }
+                    else
+                        draw_person(svgContainer, (c <= numGrey ? "#cccccc" : fill),
+                            path, xCoordMultiplier * xDist, yCoord, backgroundFill)
+                }
+                xCoordMultiplier = 0;
+                yCoord += yDist;
+            }
+            if (key && h > 3) 
+            {
+                yCoord += 25;
+
+                var txt = "Number of people affected: " + instr.count;
+
+                draw_person(svgContainer, "#cccccc", path, w * xDist + 30, 
+                    (h / 2 * personHeight) - 44, backgroundFill,  "key");
+
+                svgContainer.append("text")
+                    .attr("x", w * xDist + 32)
+                    .attr("y", h / 2 * personHeight + 20)
+                    .attr("fill", "black")
+                    .text("Not affected");
+
+                draw_person(svgContainer, fill, path, w * xDist + 30, 
+                    h / 2 * personHeight + 44, backgroundFill, "key")
+
+                svgContainer.append("text")
+                    .attr("x", w * xDist + 32)
+                    .attr("y", h / 2 * personHeight + 110)
+                    .attr("fill", "black")
+                    .text("Affected");
+            }
+        },
+
+        gif_array: function(divID, interval, data, options)
+        {
+            var width = options.gridWidth ? options.gridWidth : defaultWidth
+            var height = options.gridWidth ? options.gridWidth : defaultHeight
+            var totalIcons = width * height
+        
+            var index = 0
+            var iconOptions = clone_object(options)
+            iconOptions.divID = divID
+            iconOptions.count = data[index]
+            IconArray.draw_array(iconOptions)
+            index += 1   
+            var previousNumFilled = null
+            var numFilled = null
+
+            setInterval(function()
+             {
+                if(index === data.length)
+                {
+                    index = 0
+                }
+                console.log("index::: ", index)
+                previousNumFilled = numFilled
+                numFilled = data[index]
+                if(numFilled && numFilled < previousNumFilled)
+                {
+                    $(".in-body").slice(0, numFilled).attr("fill", "#cccccc")
+                }
+                var numGrey = totalIcons - numFilled
+                console.log("numFilled: ", numFilled)
+                $(".in-body").slice(-1 * numFilled).attr("fill", "green")
+                index += 1
+
+            }, interval * 1000)         
+        },
+
+        repeat_array: function (divID, interval, data, options)
+         {
+            var index = 0
+            var iconOptions = clone_object(options)
+            iconOptions.divID = divID
+            iconOptions.count = data[index]
+            IconArray.draw_array(iconOptions)
+            index += 1
+            setInterval(function () 
+            {
+                //set index back to beginning of data array if it gets past the end
+                console.log("index:", index)
+                if (index === data.length)
+                {
+                    index = 0
+                }
+                //move on to next data in the list
+                iconOptions.count = data[index]
+                //clear the html
+                //right now using vanilla js, going to change when this no 
+                //  longer uses d3js
+                document.getElementById(divID).innerHTML = ""
+                IconArray.draw_array(iconOptions)
+                index += 1
+            }, interval * 1000)
         }
     }
 
@@ -174,44 +253,8 @@ var draw_array = (function()
  * object makes the key show up in the visual
 )
  */
-var repeat_array = (function()
-{
-    var clone_object = function(obj) 
-    {
-        if (null == obj || "object" != typeof obj) return {};
-        var copy = obj.constructor();
-        for (var attr in obj) {
-            if (obj.hasOwnProperty(attr)) 
-                copy[attr] = obj[attr];
-        }
-        return copy;
-    }
+var repeat_array = (function () {
 
-    return function(divID, interval, data, options)
-    {
-        var index = 0
-        iconOptions = clone_object(options)
-        iconOptions.divID = divID
-        iconOptions.count = data[index]
-        draw_array(iconOptions)
-        index += 1
-        setInterval(function()
-        {   
-            //set index back to beginning of data array if it gets past the end
-            console.log("index:", index)
-            if(index === data.length)
-            {
-                index = 0
-            }
-            //move on to next data in the list
-            iconOptions.count = data[index]
-            //clear the html
-            //right now using vanilla js, going to change when this no 
-            //  longer uses d3js
-            document.getElementById(divID).innerHTML = ""
-            draw_array(iconOptions)
-            index += 1
-        }, interval * 1000)
-    }
-    
+    return
+
 })();
