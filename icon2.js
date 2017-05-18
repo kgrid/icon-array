@@ -220,7 +220,6 @@ var IconArray = (function () {
     var defaultBackgroundFill = "#ffffff"
     var personHeight = 39;
 
-
     //-----BEGIN-----
     return {
         /**
@@ -335,7 +334,6 @@ var IconArray = (function () {
             //total numer of svg rectangles
             var totalIcons = $("#" + divID + " .icon-body").length
             var artist = new Artist(fill, backgroundFill, d3.select("#" + divID + " svg"))
-
             index += 1   
             var numIconsCurrentlyFilled = data[0]
 
@@ -345,14 +343,9 @@ var IconArray = (function () {
                 {
                     index = 0
                 }
-               // console.log("index::: ", index)
-
                numIconsCurrentlyFilled = update_array(artist, divID, totalIcons, 
                                             numIconsCurrentlyFilled, data[index])
-            //    numIconsCurrentlyFilled =  update_array(divID, totalIcons,
-            //         numIconsCurrentlyFilled, data[index], fill)
                 index += 1
-
             }, interval * 1000)         
         }
     }
