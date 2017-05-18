@@ -1,7 +1,7 @@
 //divID , count, gridWidth = 10, gridHeight = 10, personFill = "steelblue", backgroundFill = "#FFFFFF", key=true
 
-
-var IconArray = (function () {
+var IconArray = (function() 
+{
     "use strict";
 
     //Artist class
@@ -130,6 +130,12 @@ var IconArray = (function () {
         return (num - Math.floor(num) > 0)
     }
 
+    /**
+     * makes a shallow copy of an object
+     * 
+     * @param {object} obj object to copy
+     * @returns {object}
+     */
     var clone_object = function(obj) 
     {
         if (null == obj || "object" != typeof obj) return {};
@@ -151,7 +157,6 @@ var IconArray = (function () {
     {
         $("#" + divID + " .partial-icon-body-top").remove()
         $("#" + divID + " .partial-icon-body-bottom").remove()
-        
     }
 
     /**
@@ -224,7 +229,7 @@ var IconArray = (function () {
     return {
         /**
          * draws icon array visual by appending svg tags
-         * @param  {Object} instr obect containing options for icon array
+         * @param  {object} instr obect containing options for icon array
          * instr should contain the following keys
          * {
          *      divID [String]: the ID of the HTML tag under which the array will be drawn,
@@ -338,7 +343,7 @@ var IconArray = (function () {
             var numIconsCurrentlyFilled = data[0]
 
             setInterval(function()
-             {
+            {
                 if(index === data.length)
                 {
                     index = 0
