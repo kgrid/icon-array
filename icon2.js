@@ -38,7 +38,14 @@ var IconArray = (function () {
             this.personWidth = 19;
         }
 
-        //draw person
+        /**
+         * draws a person icon to the artist's icon array
+         * 
+         * @param {number} x x coordinate
+         * @param {number} y y coordinate
+         * @param {bool} filledIn set to true to fill icon, false to make it grey
+         * @param {string} [type="icon-body"] 
+         */
         Artist.prototype.draw_person = function(x, y, filledIn, type="icon-body") 
         {
             this.svgContainer.append("rect")
@@ -54,7 +61,15 @@ var IconArray = (function () {
                 .attr("transform", "translate(" + x + ", " + y + ")");
         }
 
-        //draw partial person
+        
+         /**
+         * draws a partially filled person icon to the artist's icon array
+         * 
+         * @param {number} x x coordinate
+         * @param {number} y y coordinate
+         * @param {float} portion decimal portion of icon to fill in
+         * @param {string} [type="icon-body"] 
+         */
         Artist.prototype.draw_partial_person = function(x, y, portion,
             type = "partial-icon-body") 
         {
@@ -71,7 +86,6 @@ var IconArray = (function () {
                 .attr("width", this.personWidth)
                 .attr("fill", "#cccccc")
                 .attr("transform", "translate(" + x + ", " + y + ")");
-
 
             this.svgContainer.append("path")
                 .attr("fill", this.backgroundFill)
@@ -128,6 +142,11 @@ var IconArray = (function () {
         return copy;
     }
 
+    /**
+     * removes all partially filled icons from the icon array
+     * 
+     * @param {string} divID ID of div containing icon array
+     */
     var remove_partial = function(divID)
     {
         $("#" + divID + " .partial-icon-body-top").remove()
@@ -135,6 +154,13 @@ var IconArray = (function () {
         
     }
 
+    /**
+     * Gets the x,y coordinates of an icon on the icon array based off its index
+     * 
+     * @param {string} divID ID of div containing icon array
+     * @param {number} index index of icon to get coordinates from
+     * @returns 
+     */
     var get_icon_position = function(divID, index)
     {
         var infoString = $("#" + divID + " .icon-body").eq(index)
@@ -179,12 +205,7 @@ var IconArray = (function () {
             var yPos = positions[1]
 
             //fill a partial person icon in the position
-
             artist.draw_partial_person(xPos, yPos, newCount - Math.floor(newCount))
-
-            // draw_partial_person(d3.select("#" + divID + " svg"), fillColor, path, xPos,
-            //     yPos, newCount - Math.floor(newCount), "white")
-            console.log("WIDTH AND HEIGHT: ", xPos, yPos)
 
             numToFill += 2
 
