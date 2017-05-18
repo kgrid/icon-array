@@ -34,6 +34,7 @@ var IconArray = (function () {
     var initialize_svg = function(divID, width, height, backgroundFill) 
     {
         var svgContainer = d3.selectAll("#" + divID).append("svg")
+            .attr("class", "icon-array")
             .attr("fill", backgroundFill)
             .attr("width", width)
             .attr("height", height);
@@ -55,6 +56,81 @@ var IconArray = (function () {
             .attr("d", path)
             .attr("transform", "translate(" + x + ", " + y + ")");
     }
+
+    //Artist class
+    var Artist = (function()
+    {
+        //---PRIVATE METHODS---
+        //---PUBLIC METHODS---
+
+        //constructor
+        function Artist(in_fill, in_backgroundFill) 
+        {
+            this.iconFill = in_fill
+            this.backgroundFill = in_backgroundFill
+
+            this.path = "M0,0v40h22V0H0z M11,0.732c1.755,0,3.177,1.423,3.177,3.177c0"
+                + ",1.755-1.422,3.177-3.177,3.177c-1.754,0-3.177-1.422-3.177-3.177C7.82"
+                + "3,2.155,9.246,0.732,11,0.732z M18.359,11.884v9.851c0,0.763-0.617,1.3"
+                + "81-1.381,1.381c-0.763,0-1.381-0.618-1.381-1.381v-8.967h-0.535v0.124v"
+                + "10.224v14.307c0,1.02-0.826,1.848-1.848,1.848c-1.02,0-1.846-0.828-1.8"
+                + "46-1.848V23.114h-0.697v14.307H10.63c0,1.021-0.827,1.847-1.847,1.847"
+                + "c-1.021,0-1.847-0.826-1.847-1.847c0-0.134,0.016-0.264,0.043-0.39V23."
+                + "114H6.937V12.767H6.401v8.967c0,0.763-0.618,1.381-1.381,1.381s-1.38-0"
+                + ".619-1.38-1.383v-9.85v-0.407c0-2.032,1.647-3.679,3.68-3.68h7.362c2.0"
+                + "3,0,3.68,1.647,3.68,3.68v0.408H18.359z";
+
+            this.personHeight = 39;
+            this.personWidth = 19;
+            this.defaultHeight = 10
+            this.defaultWidth = 10
+            this.defaultFill = "steelblue"
+
+            return Artist
+        }
+
+        //draw person
+        Artist.prototype.draw_person = function(x, y, type = "icon-body") 
+        {
+            this.svgContainer.append("rect")
+                .attr("class", type)
+                .attr("height", this.personHeight)
+                .attr("width", this.personWidth)
+                .attr("fill", this.personFill)
+                .attr("transform", "translate(" + x + ", " + y + ")");
+
+            this.svgContainer.append("path")
+                .attr("fill", this.backgroundFill)
+                .attr("d", this.path)
+                .attr("transform", "translate(" + x + ", " + y + ")");
+        }
+
+        //draw partial person
+        Artist.prototype.draw_partial_person = function(x, y, portion,
+            type = "partial-icon-body") 
+        {
+            svgContainer.append("rect")
+                .attr("class", type + "-bottom")
+                .attr("height", this.personHeight)
+                .attr("width", this.personWidth)
+                .attr("fill", this.personFill)
+                .attr("transform", "translate(" + x + ", " + y + ")");
+
+            svgContainer.append("rect")
+                .attr("class", type + "-top")
+                .attr("height", this.personHeight * (1 - portion))
+                .attr("width", this.personWidth)
+                .attr("fill", "#cccccc")
+                .attr("transform", "translate(" + x + ", " + y + ")");
+
+
+            svgContainer.append("path")
+                .attr("fill", this.backgroundFill)
+                .attr("d", this.path)
+                .attr("transform", "translate(" + x + ", " + y + ")");
+        }
+    })();
+   
 
     var draw_partial_person = function(svgContainer, fill, path, x, y, portion, 
                                 backgroundFill, type="partial-icon-body") 
@@ -100,18 +176,8 @@ var IconArray = (function () {
 
     var remove_partial = function(divID)
     {
-        // var posString = $("#" + divID + " .partial-icon-body-bottom")
-        //     .attr("transform").split(",")
-
-        // var xPos = parseInt(posString[0].replace(/[^0-9\.]/g, ''))
-        // var yPos = parseInt(posString[1].replace(/[^0-9\.]/g, ''))
-
-        //remove the two rectangles
         $("#" + divID + " .partial-icon-body-top").remove()
         $("#" + divID + " .partial-icon-body-bottom").remove()
-        
-        
-
         
     }
 
@@ -139,7 +205,7 @@ var IconArray = (function () {
     var update_array = function(divID, totalIcons, numCurrentFilled, newCount,
                         fillColor)
     {
-
+        var decimalExists = hasDecimal(newCount)
         var numToFill = Math.floor(newCount)
         if(numToFill < numCurrentFilled)
         {
@@ -151,13 +217,14 @@ var IconArray = (function () {
         //fill the icons
         $("#" + divID + " .icon-body").slice(-1 * numToFill).attr("fill", fillColor)
 
-        if(hasDecimal(newCount))
+        if(decimalExists)
         {
             //this will get the last icon which will need to be filled partially
             var positions = get_icon_position(divID, totalIcons - numToFill - 1)
             var xPos = positions[0]
             var yPos = positions[1]
 
+            //fill a partial person icon in the position
             draw_partial_person(d3.select("#" + divID + " svg"), fillColor, path, xPos,
                 yPos, newCount - Math.floor(newCount), "white")
             console.log("WIDTH AND HEIGHT: ", xPos, yPos)
