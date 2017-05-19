@@ -91,3 +91,4 @@ For example, calling
 # Notes
   * `IconArray.draw_array()` works by appending svg tags to draw the array. If you make multiple calls to `draw_array()` on the same Div, it will append multiple Icon Arrays. If you want to avoid this behavior, you will have to clear the original icon array prior to drawing a new icon array
   * Use `IconArray.clear_array()` to remove Icon Arrays, do not remove them manually
+  * The IconArray module uses JQuery, so you will need to include JQuery in any applications using the Icon Array
