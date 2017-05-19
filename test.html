@@ -5,26 +5,48 @@
         <!--<script src="http://kgrid.med.umich.edu/stack/knowledgeObject/ark:/99999/fk40s01p75/payload/content"></script>-->
         <script src="https://d3js.org/d3.v4.min.js"></script>
         <script src="./icon2.js"></script>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 
     </head>
-    <body>
+    <body>   
         <div id="id">
         </div>
+
         <br>
         <br>
         <br>
+
         <div id="id2">
         </div>
+
         <br>
         <br>
         <br>
+
         <div id="id3">
         </div>
+
+        <p id="p">
+            paragraph
+        </p>
     </body>
 
     <script>
-        draw_array({divID: "id", count: 2.75, key: true})
-        //repeat_array("id2", 1, [1, 5, 7.25, 10.5, 23.2], {key: true})
-        //repeat_array("id3", 2, [1, 3, 5, 6.6, 10], {key: true})
+        IconArray.draw_array({divID: "id", count: 2.75, key: true})
+        IconArray.repeat_array("id2", 0.5, [1, 5, 7.5, 10, 15.75], {
+            key: true, 
+            message: {
+                interval: 1,
+                timeframe: "years"
+            }
+         })
+        IconArray.repeat_array("id3", 2, [1, 3, 5, 6.6, 10], {
+            key: true, 
+            message: {
+                interval: 0.5, 
+                timeframe: "years"
+            }
+        })
+        //IconArray.Artist.draw_person(1, 2)
     </script>
 </html>

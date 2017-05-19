@@ -4,20 +4,22 @@ var IconArray = (function()
 {
     "use strict";
 
-        /**
-         * creates an svg element with specified attributes
-         * 
-         * @param {string} tag type of svg element to create
-         * @param {object} attributes attributes for svg element
-         * @returns 
-         */
-        var create_svg_element = function(tag, attributes)
+    /**
+     * creates an svg element with specified attributes
+     * 
+     * @param {string} tag type of svg element to create
+     * @param {object} attributes attributes for svg element
+     * @returns 
+     */
+    var create_svg_element = function(tag, attributes)
+    {
+        var el = document.createElementNS('http://www.w3.org/2000/svg', tag)
+        for (var k in attributes)
         {
-            var el = document.createElementNS('http://www.w3.org/2000/svg', tag);
-            for (var k in attributes)
-                el.setAttribute(k, attributes[k]);
-            return el;
+            el.setAttribute(k, attributes[k])
         }
+        return el
+    }
 
     //Artist class
     var Artist = (function()
@@ -113,6 +115,16 @@ var IconArray = (function()
                 d: this.path,
                 transform: "translate(" + x + ", " + y + ")"
             }))
+        }
+
+        Artist.prototype.add_bottom_message = function(message)
+        {
+            var svgHeight = parseInt(this.svgContainer.getAttribute("height"))
+            this.svgContainer.appendChild(create_svg_element("text", {
+                x: 0,
+                y: svgHeight - 10,
+                fill: "black"
+            })).innerHTML = message
         }
 
         return Artist
@@ -355,37 +367,66 @@ var IconArray = (function()
          * updating the array to reflect new values
          * 
          * @param {string} divID id of div containing the icon array
-         * @param {number} interval number of seconds between each update
-         * @param {array} data list of numbers that represent different counts
+         * @param {number} delay number of seconds between each update
+         * @param {object} data list of numbers representing data  
          * @param {object} options options for icon array
+         * @param {object} options.message specify whether or not to show message
+         * @param {number} options.message.interval interval of time between each data entry
+         * @param {string} options.message.timeframe time frame for data interval (ie "years", "days", etc.) 
+         * @param {number} options.message.timestart starting time of data (ie 1 for start at 1 year)
          */
-        repeat_array: function(divID, interval, data, options)
+        repeat_array: function(divID, delay, data, options)
         {
+            
             var index = 0
             var iconOptions = clone_object(options)
             iconOptions.divID = divID
             iconOptions.count = data[index]
-            IconArray.draw_array(iconOptions)
             var fill = options.personFill ? options.personFill : defaultFill
             var backgroundFill = options.backgroundFill ? optiosn.backgroundFill : defaultBackgroundFill
             //total numer of svg rectangles
             var totalIcons = $("#" + divID + " .icon-body").length
+
+            IconArray.draw_array(iconOptions)
             var artist = new Artist(fill, backgroundFill, get_svg_container(divID))
+
+            var messageOpt = options.message ? true : false
+            var time = options.message.timestart ? options.message.timestart : 0
+
+            if(messageOpt)
+            {
+                artist.add_bottom_message("Value after <tspan id='icon-array-bot-msg'>" + time + "</tspan> " 
+                                            + options.message.timeframe)
+                time += options.message.interval
+            }
+
             index += 1   
             var numIconsCurrentlyFilled = data[0]
-
+        
             runningArrays[divID] = setInterval(function()
             {
                 if(index === data.length)
                 {
                     index = 0
+                    time = options.message.timestart ? options.message.timestart : 0
                 }
                numIconsCurrentlyFilled = update_array(artist, divID, totalIcons, 
                                             numIconsCurrentlyFilled, data[index])
+                if(messageOpt)
+                {
+                    $("#" + divID + " #icon-array-bot-msg").html(time)
+                    time += options.message.interval
+
+                }
                 index += 1
-            }, interval * 1000)         
+            }, delay * 1000)         
         },
 
+        /**
+         * clears the specified icon array
+         * 
+         * @param {string} divID ID of div containing Icon Array to clear
+         */
         clear_array: function(divID)
         {
             //check if the icon array is running on repeat_array
