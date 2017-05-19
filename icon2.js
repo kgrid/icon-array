@@ -90,7 +90,7 @@ var IconArray = (function()
          * @param {string} [type="icon-body"] 
          */
         Artist.prototype.draw_partial_person = function(x, y, portion,
-            type = "partial-icon-body") 
+            type="partial-icon-body") 
         {
             this.svgContainer.appendChild(create_svg_element("rect", {
                 class: type + "-bottom",
@@ -132,7 +132,6 @@ var IconArray = (function()
      */
     var initialize_svg = function(divID, width, height, backgroundFill) 
     {
-
        document.getElementById(divID).appendChild(create_svg_element("svg", {
             class: "icon-array",
             fill: backgroundFill,
@@ -255,6 +254,9 @@ var IconArray = (function()
     var defaultBackgroundFill = "#ffffff"
     var personHeight = 39;
 
+    //used to keep track of ion arrays currently running on repeat_array
+    var runningArrays = {}
+
     //-----BEGIN-----
     return {
         /**
@@ -372,7 +374,7 @@ var IconArray = (function()
             index += 1   
             var numIconsCurrentlyFilled = data[0]
 
-            setInterval(function()
+            runningArrays[divID] = setInterval(function()
             {
                 if(index === data.length)
                 {
@@ -382,6 +384,18 @@ var IconArray = (function()
                                             numIconsCurrentlyFilled, data[index])
                 index += 1
             }, interval * 1000)         
+        },
+
+        clear_array: function(divID)
+        {
+            //check if the icon array is running on repeat_array
+            //if it is, then stop the loop
+            if(runningArrays.hasOwnProperty(divID))
+            {
+                clearInterval(runningArrays[divID])
+                delete runningArrays[divID]
+            }
+            document.getElementById(divID).innerHTML = ""
         }
     }
 
