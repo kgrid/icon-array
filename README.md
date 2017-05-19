@@ -45,11 +45,11 @@ IconArray.draw_array({
   count: 2.5, 
   gridWidth: 10, 
   gridHeight: 10,
-  backgroundFill: "white", 
+  backgroundFill: "steelblue", 
   personFill: "orange"
 })
 ``` 
-will draw an icon array on a div with id = "my_div", and will fill in 2.5 icons colored orange and will look like this:
+will draw an icon array on a div with id = "my_div", and will fill in 2.5 icons colored steelblue and will look like this:
 
 ![icon array](https://github.com/kgrid/icon-array/blob/master/icon-array-example.png)
 
