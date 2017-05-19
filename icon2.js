@@ -4,9 +4,27 @@ var IconArray = (function()
 {
     "use strict";
 
+        /**
+         * creates an svg element with specified attributes
+         * 
+         * @param {string} tag type of svg element to create
+         * @param {object} attributes attributes for svg element
+         * @returns 
+         */
+        var create_svg_element = function(tag, attributes)
+        {
+            var el = document.createElementNS('http://www.w3.org/2000/svg', tag);
+            for (var k in attributes)
+                el.setAttribute(k, attributes[k]);
+            return el;
+        }
+
     //Artist class
     var Artist = (function()
     {
+        //---PRIVATE METHODS---
+
+    
         //---PUBLIC METHODS---
 
         //constructor
@@ -48,17 +66,46 @@ var IconArray = (function()
          */
         Artist.prototype.draw_person = function(x, y, filledIn, type="icon-body") 
         {
-            this.svgContainer.append("rect")
-                .attr("class", type)
-                .attr("height", this.personHeight)
-                .attr("width", this.personWidth)
-                .attr("fill", filledIn ? this.iconFill : "#cccccc")
-                .attr("transform", "translate(" + x + ", " + y + ")");
+            // this.svgContainer.append("rect")
+            //     .attr("class", type)
+            //     .attr("height", this.personHeight)
+            //     .attr("width", this.personWidth)
+            //     .attr("fill", filledIn ? this.iconFill : "#cccccc")
+            //     .attr("transform", "translate(" + x + ", " + y + ")");
 
-            this.svgContainer.append("path")
-                .attr("fill", this.backgroundFill)
-                .attr("d", this.path)
-                .attr("transform", "translate(" + x + ", " + y + ")");
+            // this.svgContainer.append("path")
+            //     .attr("fill", this.backgroundFill)
+            //     .attr("d", this.path)
+            //     .attr("transform", "translate(" + x + ", " + y + ")");
+
+
+            this.svgContainer.appendChild(create_svg_element("rect", {
+                class: type,
+                fill: filledIn ? this.iconFill : "#cccccc",
+                transform: "translate(" + x + ", " + y + ")",
+                height: this.personHeight,
+                width: this.personWidth
+            }))
+
+            // $("<rect>", {
+            //     class: type,
+            //     fill: filledIn ? this.iconFill : "#cccccc",
+            //     transform: "translate(" + x + ", " + y + ")"
+            // }).attr("height", this.personHeight)
+            //   .attr("width", this.personWidth)
+            //     .appendTo(this.svgContainer)
+
+            this.svgContainer.appendChild(create_svg_element("path", {
+                fill: this.backgroundFill,
+                d: this.path,
+                transform: "translate(" + x + ", " + y + ")"
+            }))
+
+            // $("<path>", {
+            //     fill: this.backgroundFill,
+            //     d: this.path,
+            //     transform: "translate(" + x + ", " + y + ")"
+            // }).appendTo(this.svgContainer)
         }
 
         
@@ -73,24 +120,70 @@ var IconArray = (function()
         Artist.prototype.draw_partial_person = function(x, y, portion,
             type = "partial-icon-body") 
         {
-            this.svgContainer.append("rect")
-                .attr("class", type + "-bottom")
-                .attr("height", this.personHeight)
-                .attr("width", this.personWidth)
-                .attr("fill", this.iconFill)
-                .attr("transform", "translate(" + x + ", " + y + ")");
+            // this.svgContainer.append("rect")
+            //     .attr("class", type + "-bottom")
+            //     .attr("height", this.personHeight)
+            //     .attr("width", this.personWidth)
+            //     .attr("fill", this.iconFill)
+            //     .attr("transform", "translate(" + x + ", " + y + ")");
 
-            this.svgContainer.append("rect")
-                .attr("class", type + "-top")
-                .attr("height", this.personHeight * (1 - portion))
-                .attr("width", this.personWidth)
-                .attr("fill", "#cccccc")
-                .attr("transform", "translate(" + x + ", " + y + ")");
 
-            this.svgContainer.append("path")
-                .attr("fill", this.backgroundFill)
-                .attr("d", this.path)
-                .attr("transform", "translate(" + x + ", " + y + ")");
+            this.svgContainer.appendChild(create_svg_element("rect", {
+                class: type + "-bottom",
+                height: this.personHeight,
+                width: this.personWidth,
+                fill: this.iconFill,
+                transform: "translate(" + x + ", " + y + ")"
+            }))
+
+            // $("<rect>", {
+            //     class: type + "-bottom",
+            //     height: this.personHeight,
+            //     width: this.personWidth,
+            //     fill: this.iconFill,
+            //     transform: "translate(" + x + ", " + y + ")"
+            // }).appendTo(this.svgContainer)
+
+            // this.svgContainer.append("rect")
+            //     .attr("class", type + "-top")
+            //     .attr("height", this.personHeight * (1 - portion))
+            //     .attr("width", this.personWidth)
+            //     .attr("fill", "#cccccc")
+            //     .attr("transform", "translate(" + x + ", " + y + ")");
+
+            this.svgContainer.appendChild(create_svg_element("rect", {
+               class: type + "-top",
+                height: this.personHeight * (1 - portion),
+                width: this.personWidth,
+                fill: "#cccccc",
+                transform: "translate(" + x + ", " + y + ")"
+            }))
+
+            // $("<rect>", {
+            //     class: type + "-top",
+            //     height: this.personHeight + (1 - portion),
+            //     width: this.personWidth,
+            //     fill: "#cccccc",
+            //     transform: "translate(" + x + ", " + y + ")"
+            // })
+
+            // this.svgContainer.append("path")
+            //     .attr("fill", this.backgroundFill)
+            //     .attr("d", this.path)
+            //     .attr("transform", "translate(" + x + ", " + y + ")");
+
+            this.svgContainer.appendChild(create_svg_element("path", {
+                fill: this.backgroundFill,
+                d: this.path,
+                transform: "translate(" + x + ", " + y + ")"
+            }))
+
+
+            // $("<path>", {
+            //     fill: this.backgroundFill,
+            //     d: this.path,
+            //     transform: "translate(" + x + ", " + y + ")"
+            // })
         }
 
         return Artist
@@ -110,13 +203,37 @@ var IconArray = (function()
      */
     var initialize_svg = function(divID, width, height, backgroundFill) 
     {
-        var svgContainer = d3.selectAll("#" + divID).append("svg")
-            .attr("class", "icon-array")
-            .attr("fill", backgroundFill)
-            .attr("width", width)
-            .attr("height", height);
 
-        return svgContainer;
+       document.getElementById(divID).appendChild(create_svg_element("svg", {
+            class: "icon-array",
+            fill: backgroundFill,
+            height: height,
+            width: width
+        }))
+
+        var svg = document.getElementById(divID).getElementsByClassName("icon-array")[0]
+        // $("<svg>", {
+        //     class: "icon-array",
+        //     fill: backgroundFill
+        // }).appendTo($("#" + divID))
+
+       // var svgContainer = $("#" + divID + " svg")
+
+        // svgContainer.attr("width", width)
+        // svgContainer.attr("height", height)
+
+        // var svgContainer = d3.selectAll("#" + divID).append("svg")
+        //     .attr("class", "icon-array")
+        //     .attr("fill", backgroundFill)
+        //     .attr("width", width)
+        //     .attr("height", height);
+
+        return svg;
+    }
+
+    var get_svg_container = function(divID)
+    {
+         return document.getElementById(divID).getElementsByClassName("icon-array")[0]
     }
    
     /**
@@ -301,20 +418,32 @@ var IconArray = (function()
                 artist.draw_person(w * xDist + 30, (h / 2 * personHeight) - 44,
                                     false, "key")
 
-                svgContainer.append("text")
-                    .attr("x", w * xDist + 32)
-                    .attr("y", h / 2 * personHeight + 20)
-                    .attr("fill", "black")
-                    .text("Not affected");
+                svgContainer.appendChild(create_svg_element("text", {
+                    x: w * xDist + 32,
+                    y: h / 2 * personHeight + 20,
+                    fill: "black"
+                })).innerHTML = "Not affected"
+
+                // svgContainer.append("text")
+                //     .attr("x", w * xDist + 32)
+                //     .attr("y", h / 2 * personHeight + 20)
+                //     .attr("fill", "black")
+                //     .text("Not affected");
 
                 artist.draw_person(w * xDist + 30, h / 2 * personHeight + 44, 
                                     true, "key")
 
-                svgContainer.append("text")
-                    .attr("x", w * xDist + 32)
-                    .attr("y", h / 2 * personHeight + 110)
-                    .attr("fill", "black")
-                    .text("Affected");
+                svgContainer.appendChild(create_svg_element("text", {
+                                x: w * xDist + 32,
+                                y: h / 2 * personHeight + 110,
+                                fill: "black"
+                            })).innerHTML = "Affected"
+
+                // svgContainer.append("text")
+                //     .attr("x", w * xDist + 32)
+                //     .attr("y", h / 2 * personHeight + 110)
+                //     .attr("fill", "black")
+                //     .text("Affected");
             }
         },
 
@@ -338,7 +467,7 @@ var IconArray = (function()
             var backgroundFill = options.backgroundFill ? optiosn.backgroundFill : defaultBackgroundFill
             //total numer of svg rectangles
             var totalIcons = $("#" + divID + " .icon-body").length
-            var artist = new Artist(fill, backgroundFill, d3.select("#" + divID + " svg"))
+            var artist = new Artist(fill, backgroundFill, get_svg_container(divID))
             index += 1   
             var numIconsCurrentlyFilled = data[0]
 
