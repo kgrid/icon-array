@@ -346,10 +346,10 @@ var IconArray = (function()
                                     false, "key")
 
                 svgContainer.appendChild(create_svg_element("text", {
-                    x: w * xDist + 32,
-                    y: h / 2 * personHeight + 20,
-                    fill: "black"
-                })).innerHTML = "Not affected"
+                                x: w * xDist + 32,
+                                y: h / 2 * personHeight + 20,
+                                fill: "black"
+                             })).innerHTML = "Not affected"
 
                 artist.draw_person(w * xDist + 30, h / 2 * personHeight + 44, 
                                     true, "key")
@@ -358,7 +358,7 @@ var IconArray = (function()
                                 x: w * xDist + 32,
                                 y: h / 2 * personHeight + 110,
                                 fill: "black"
-                            })).innerHTML = "Affected"
+                             })).innerHTML = "Affected"
             }
         },
 
@@ -375,7 +375,7 @@ var IconArray = (function()
          * @param {string} options.message.timeframe time frame for data interval (ie "years", "days", etc.) 
          * @param {number} options.message.timestart starting time of data (ie 1 for start at 1 year)
          */
-        repeat_array: function(divID, delay, data, options)
+        draw_repeat_array: function(divID, delay, data, options)
         {
             
             var index = 0
@@ -416,7 +416,6 @@ var IconArray = (function()
                 {
                     $("#" + divID + " #icon-array-bot-msg").html(time)
                     time += options.message.interval
-
                 }
                 index += 1
             }, delay * 1000)         
