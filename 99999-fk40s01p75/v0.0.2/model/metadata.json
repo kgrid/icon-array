@@ -1,0 +1,8 @@
+{
+  "functionName":"iconarray",
+  "adapterType":"RESOURCE",
+  "resource":"resource/iconarrayOG.js",
+  "adapters":[
+    {"name":"Resourcde","version":"0.5.8","filename":"resource-adapter-0.0.1-SNAPSHOT.jar","download_url":"https://github.com/kgrid/ko-templates/releases/download/0.1/", "target":"adapters/"}
+  ]
+}
