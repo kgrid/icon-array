@@ -1,13 +1,21 @@
 # Icon Array
-This is a visual knowledge object. Unlike regular knowledge objects, the Icon Array does not run on the Activator, instead it is used to deliver javascript code to a client that can be executed by a web application.
+This is a resource-style knowledge object. It serves a javascript file that can be used to generate 
+a visual representation of a 0-100 risk score that can be run on a web application. This is different
+from most other knowledge objects which execute code in the activator and return a result.
 
-# How to include
-To use the Icon Array, you will either need to download this file or include is as a remote script src in your web application.
+## How to activate
+1. Copy the 99999-fk40s01p75 directory to the shelf of your activator which can be found by checking
+ the `kgrid.shelf.*.url` property at `{activator url}/health`. 
+ 2. Go to `{activator url}/endpoints`
+ and make sure `99999/fk40s01p75/v0.0.2/iconarray.js` is listed.
+ 3. You can check that the 
+ resource is available by going to `{activator url}/99999/fk40s01p75/v0.0.2/iconarray.js`
+ 4. You're done! The icon array code is now available to be included in a web app.
 
-### Remote source
+## How to use from the activator
 To include this as a remote script source, include this line in you web application's HTML file:
 ```HTML
-  <script src="http://kgrid.med.umich.edu/stack/knowledgeObject/ark:/99999/fk40s01p75/payload/content"></script>
+  <script src="{activator_url}/99999/fk40s01p75/v0.0.2/iconarray.js"></script>
 ```
 
 ### Local source

@@ -9,7 +9,7 @@
     }
   ],
   "keywords": "Keywords",
-  "owners": "DLHS",
+  "owners": "KGRID",
   "contributors": "KGRID Team",
   "license": {
     "licenseName": "",
@@ -21,5 +21,5 @@
   "lastModified": 0,
   "createdOn": 0,
   "model": "model",
-  "service": "service/servicedescriptor.yaml"
+  "service": "model/service/servicedescriptor.yaml"
 }

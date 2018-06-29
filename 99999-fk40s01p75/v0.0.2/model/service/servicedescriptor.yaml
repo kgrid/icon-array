@@ -1,56 +1,21 @@
 openapi: 3.0.0
+servers:
+  - description: The UM kgrid
+    url: 'http://kgrid.med.umich.edu/stack2/knowledgeObject'
 info:
-  version: 1.0.0
-  title: 'Hello, World'
-  description: 'hello world'
+  description: Icon array resource object - returns js to generate icon arrays
+  version: "1.0.0"
+  title: Icon Array
 paths:
-  /hello/world/v0.0.1/welcome:
-    post:
-      description: Welcome.
-      operationId: welcome
-      requestBody:
-        description: inputs
-        required: true
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/user'
+  /iconarray.js:
+    get:
+      description: iconarray.
+      operationId: iconarray.js
+      summary: returns javascript code for generating an icon array
       responses:
         '200':
-          description: response
+          description: the code for generating an icon array
           content:
-            application/json:
+            application/javascript:
               schema:
-                $ref: '#/components/schemas/welcomeOutput'
-        default:
-          description: unexpected error
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/error'
-components:
-  schemas:
-    user:
-      required:
-        - name
-      properties:
-        name:
-          type: string
-          example: 'Bob'
-    welcomeOutput:
-      required:
-        - result
-      properties:
-        result:
-          type: string
-          example: 'welcome'
-    error:
-      required:
-        - code
-        - message
-      properties:
-        code:
-          type: integer
-          format: int32
-        message:
-          type: string
+                type: string
