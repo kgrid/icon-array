@@ -4,10 +4,9 @@ info:
   title: 'Icon Array'
   description: 'JavaScript object to generate visual representation of risk scores.'
 servers:
-  - url: 'https://kgrid-activator.herokuapp.com'
-  - url: 'http://localhost:8080'
+  - url: '/icon/array/v0.0.1'
 paths:
-  /icon/array/v0.0.1/iconarray:
+  /model/resource/iconarray.js:
     get:
       description: Get the resource.
       operationId: iconarrayjs
