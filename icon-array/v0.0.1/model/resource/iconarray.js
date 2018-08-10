@@ -12,6 +12,9 @@ function draw_array(instr)
 	var personHeight = 39;
 	var personWidth = 19;
 
+
+
+
 	//-----FUNCTIONS-----
 	var initialize_svg = function(divID, width, height, maskDecimal)
 	{
@@ -61,6 +64,10 @@ function draw_array(instr)
 
 	//-----BEGIN-----
 
+
+  if( !instr ){
+    throw new Error("must have instructions 'divID , count, gridWidth = 10, gridHeight = 10, personFill = \"steelblue\", backgroundFill = \"#FFFFFF\", key=true'");
+  }
 
 	var height = 45 * instr.gridHeight + 29	;
 	var width = 44 * instr.gridWidth;
