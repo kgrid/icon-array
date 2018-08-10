@@ -3,32 +3,18 @@ This is a resource-style knowledge object. It serves a javascript file that can 
 a visual representation of a 0-100 risk score that can be run on a web application. This is different
 from most other knowledge objects which execute code in the activator and return a result.
 
-## How to activate
-1. Copy the 99999-fk40s01p75 directory to the shelf of your activator which can be found by checking
- the `kgrid.shelf.*.url` property at `{activator url}/health`. 
- 2. Go to `{activator url}/endpoints`
- and make sure `99999/fk40s01p75/v0.0.2/iconarray.js` is listed.
- 3. You can check that the 
- resource is available by going to `{activator url}/99999/fk40s01p75/v0.0.2/iconarray.js`
- 4. You're done! The icon array code is now available to be included in a web app.
+## How to activate the Icon Array
 
-## How to use from the activator
+
+## Referencing the activated Icon Array 
 To include this as a remote script source, include this line in you web application's HTML file:
 ```HTML
-  <script src="{activator_url}/99999/fk40s01p75/v0.0.2/iconarray.js"></script>
+  <script src="{activator_url}/icon/array/v0.0.1/model/resource/iconarray.js"></script>
+  
 ```
+Please look at out [example html](examples/example.html) page.
 
-### Local source
-To include the Icon Array locally, download the iconarray.js file into your project directory and include a script src:
-```HTML
-<script src="path/to/iconarray.js"></script>
-```
-make sure to use the proper path to the file
-
-# How to use
-
-### IconArray module
-The script source contains the IconArray module which is used to create and remove icon arrays.
+## How to use the Icon Array
 
 ### Create a static Icon Array
 iconarray.js defines a function called `draw_array` that is used to draw the icon array. This function takes a JavaScript Object as its parameter to determine how to draw the visual. This object should have the following keys:
@@ -44,11 +30,11 @@ iconarray.js defines a function called `draw_array` that is used to draw the ico
 }
 ```
 
-To use the Icon Array, use `IconArray.draw_array()` with the desired instructions in an object.
+To use the Icon Array, use `draw_array()` with the desired instructions in an object.
 
 For example, calling
 ```
-IconArray.draw_array({
+draw_array({
   divID: "my_div", 
   count: 2.5, 
   gridWidth: 10, 
@@ -59,44 +45,3 @@ IconArray.draw_array({
 ``` 
 will draw an icon array on a div with id = "my_div", and will fill in 2.5 icons colored steelblue and will look like this:
 
-![icon array](https://github.com/kgrid/icon-array/blob/master/icon-array-example.png)
-
-
-### Create a repeating Icon Array
-It is also possible to create an icon array that continually updates based on a list of data. To do this, make a call to `IconArray.draw_repeat_array()`. This function takes the following parameters:
-```
-{
-  divID [string]: ID of div to draw the icon array to
-  delay [number]: the number of seconds between each update
-  data [array]: an array of numbers containing each value you want displayed on the repeating Icon Array
-  options [object]: an object containing options for drawing the icon array
-    options.message [object]: specifies whether or not to show message with repeating array and provides options for message
-    options.message.interval [number]: interval of time between each data entry
-    options.message.timeframe [string]: time frame for data interval (ie "years", "days", etc.) 
-    options.message.timestart [number]: starting time of data (ie 1 for start at 1 year)
-}
-```
-Calling
-```javascript
-IconArray.draw_repeat_array("id2", 0.5, [1, 5, 7.5, 10, 15.75], {
-            key: true, 
-            message: {
-                interval: 0.5,
-                timeframe: "years"
-            }
-         })
-```
-Would make an icon array that cycles trough the values [1, 5, 7.5, 10, 15, 15.75] every 0.5 seconds. It would display the key next to the Icon Array and display the message "Value after {n} years" where n is updated each cycle.
-
-### Removing an Icon Array
-To remove an icon array, call `IconArray.clear_array()`. This function takes a div ID as its argument and removes the specified icon array.
-For example, calling
-```
-  IconArray.clear_array("my_div")
- ```
- would remove the array that is contained in the div with ID "my_div"
-
-# Notes
-  * `IconArray.draw_array()` works by appending svg tags to draw the array. If you make multiple calls to `draw_array()` on the same Div, it will append multiple Icon Arrays. If you want to avoid this behavior, you will have to clear the original icon array prior to drawing a new icon array
-  * Use `IconArray.clear_array()` to remove Icon Arrays, do not remove them manually
-  * The IconArray module uses JQuery, so you will need to include JQuery in any applications using the Icon Array

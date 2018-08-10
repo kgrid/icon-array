@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <script src="https://kgrid-test.miserver.it.umich.edu/activator/icon/array/v0.0.1/model/resource/iconarray.js"></script>
+        <script src="https://d3js.org/d3.v4.min.js"></script>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+
+    </head>
+    <body>   
+        <div id="risk_one" style="float: left"></div>
+        <div id="risk_two"  style="float: left"></div>
+        <div id="risk_three"  style="float: left"></div>
+    </body>
+
+    <script>
+      draw_array({divID: "risk_one", count: 100, gridWidth: 10, gridHeight: 10, personFill: "steelblue",
+        backgroundFill: "#FFFFFF", key: true})
+      draw_array({divID: "risk_two", count: 75, gridWidth: 10, gridHeight: 10, personFill: "green",
+        backgroundFill: "#FFFFFF", key: true})
+      draw_array({divID: "risk_three", count: 1, gridWidth: 10, gridHeight: 10, personFill: "navy",
+        backgroundFill: "white", key: true})
+    </script>
+</html>
