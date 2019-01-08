@@ -1,0 +1,5 @@
+endpoints:
+  /iconarray.js:
+    adapterType: RESOURCE
+    artifact: iconarray.js
+    entry: iconarray.js

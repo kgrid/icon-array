@@ -1,0 +1,14 @@
+{
+  "@id": "v0.0.3",
+  "@type": "koio:Implementation",
+  "identifier": "v0.0.3",
+  "title": "Icon Array Implementation",
+  "description": "JavaScript object to generate visual representation of risk scores. To use, create a div with an id=<any id name>, then create a dictionary with the proper values to pass into the draw_array function. Run the function, and the object will draw the visual where you put your div in the html code. NOTE: this knowledge object uses D3.JS, so to use it you have to include a script source to D3",
+  "keywords": "Keywords",
+  "hasServiceSpecification": "v0.0.3/service-specification.yaml",
+  "hasDeploymentSpecification": "v0.0.3/deployment-specification.yaml",
+  "hasPayload": "v0.0.3/iconarray.js",
+  "@context": [
+    "http://kgrid.org/koio/contexts/knowledgeobject.jsonld"
+  ]
+}
