@@ -1,8 +1,9 @@
 //divID , count, gridWidth = 10, gridHeight = 10, personFill = "steelblue", backgroundFill = "#FFFFFF", key=true
+var svgContainer;
 function draw_array(instr)
 {
 	//for drawing svg icon path
-	var path = "M0,0v40h22V0H0z M11,0.732c1.755,0,3.177,1.423,3.177,3.177c0,1.755-1.422,3.177-3.177,3.177" +
+	 var path = "M0,0v40h22V0H0z M11,0.732c1.755,0,3.177,1.423,3.177,3.177c0,1.755-1.422,3.177-3.177,3.177" +
 	"c-1.754,0-3.177-1.422-3.177-3.177C7.823,2.155,9.246,0.732,11,0.732z M18.359,11.884v9.851c0,0.763-0.617,1.381-1.381,1.381" +
 	"c-0.763,0-1.381-0.618-1.381-1.381v-8.967h-0.535v0.124v10.224v14.307c0,1.02-0.826,1.848-1.848,1.848" +
 	"c-1.02,0-1.846-0.828-1.846-1.848V23.114h-0.697v14.307H10.63c0,1.021-0.827,1.847-1.847,1.847c-1.021,0-1.847-0.826-1.847-1.847" +
@@ -18,7 +19,7 @@ function draw_array(instr)
 	//-----FUNCTIONS-----
 	var initialize_svg = function(divID, width, height, maskDecimal)
 	{
-		var svgContainer = d3.selectAll("#" + divID).append("svg")
+		 svgContainer = d3.selectAll("#" + divID).append("svg")
 								.attr("fill", instr.backgroundFill)
 	                       	 	.attr("width", width)
 	                         	.attr("height", height);
