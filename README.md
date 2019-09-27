@@ -1,3 +1,5 @@
+[![GPLv3 license](https://img.shields.io/badge/License-GPLv3-blue.svg)](http://perso.crans.org/besson/LICENSE.html)
+
 # Icon Array
 This is a resource-style knowledge object. It serves a javascript file that can be used to generate 
 a visual representation of a 0-100 risk score that can be run on a web application. This is different
