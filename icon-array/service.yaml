@@ -4,9 +4,9 @@ info:
   title: 'Icon Array'
   description: 'JavaScript object to generate visual representation of risk scores.'
 servers:
-  - url: '/icon/array/v0.0.1'
+  - url: /icon/array
 paths:
-  /model/resource/iconarray.js:
+  /iconarray.js:
     get:
       description: Get the resource.
       operationId: iconarrayjs

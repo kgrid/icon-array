@@ -1,7 +1,7 @@
 var rewire = require('rewire');
 var d3 = require('d3');
 
-var iconarray = rewire('../icon-array/v0.0.1/model/resource/iconarray');
+var iconarray = rewire('../icon-array/iconarray');
 
 var draw = iconarray.__get__("draw_array");
 var svgContainer  = iconarray.__set__("svgContainer", "");
@@ -29,7 +29,3 @@ test('bad day', () => {
   }).toThrow();
 
 });
-
-
-
-
