@@ -26,10 +26,10 @@
   },
   "homepage": "https://github.com/kgrid/icon-array#readme",
   "devDependencies": {
-    "d3": "^5.5.0",
-    "jest": "^25.0.0",
+    "d3": "^5.15.0",
+    "jest": "^25.1.0",
     "merge": ">=1.2.1",
     "rewire": "^4.0.1",
-    "scripty": "^1.7.2"
+    "scripty": "^1.9.1"
   }
 }
