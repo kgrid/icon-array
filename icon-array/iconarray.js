@@ -25,7 +25,7 @@ function draw_array(instr)
         .attr("height", height);
 
         return svgContainer;
-    }
+    };
 
     var draw_person = function(svgContainer, fill, path, x, y)
     {
@@ -39,7 +39,7 @@ function draw_array(instr)
         .attr("fill", instr.backgroundFill)
         .attr("d", path)
         .attr("transform", "translate(" + x + ", " + y + ")");
-    }
+    };
 
     var draw_partial_person = function(svgContainer, fill, path, x, y, portion)
     {
@@ -61,7 +61,7 @@ function draw_array(instr)
         .attr("fill", instr.backgroundFill)
         .attr("d", path)
         .attr("transform", "translate(" + x + ", " + y + ")");
-    }
+    };
 
     //-----BEGIN-----
 
@@ -76,8 +76,8 @@ function draw_array(instr)
     var decimal = instr.count - Math.floor(instr.count);
     if(decimal && decimal < 0.1)
     {
-        decimal = 0.1
-    }
+        decimal = 0.1;
+    };
 
     var partial = (decimal != 0) ? true : false;
     //Make an SVG Container
@@ -85,7 +85,7 @@ function draw_array(instr)
 
     var xDist = 25;
     var yCoord = 0;
-    var yDist = 45
+    var yDist = 45;
     var xCoordMultiplier = 0;
 
     var numGrey = (instr.gridWidth * instr.gridHeight) - Math.ceil(instr.count);
@@ -98,7 +98,7 @@ function draw_array(instr)
             return "#cccccc";
         else
             return instr.personFill;
-    }
+    };
 
 
     var c = 1;
@@ -132,7 +132,7 @@ function draw_array(instr)
         .attr("fill", "black")
         .text("Not affected");
 
-        draw_person(svgContainer, fillColor(numGrey + 1), path, instr.gridHeight * xDist + 30, instr.gridHeight/2 * personHeight + 44)
+        draw_person(svgContainer, fillColor(numGrey + 1), path, instr.gridHeight * xDist + 30, instr.gridHeight/2 * personHeight + 44);
 
         svgContainer.append("text")
         .attr("x", instr.gridWidth * xDist + 32)
