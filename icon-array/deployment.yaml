@@ -1,5 +1,4 @@
-endpoints:
-  /iconarray.js:
-    adapter: RESOURCE
-    artifact: iconarray.js
-    entry: iconarray.js
+/iconarray.js:
+  get:
+    engine: "resource"
+    artifact: "iconarray.js"
