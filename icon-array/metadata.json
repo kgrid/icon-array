@@ -5,7 +5,7 @@
   "version":"v0.2.3",
   "title": "Icon Array",
   "contributors": "KGRID Team",
-  "desription": "JavaScript object to generate visual representation of risk scores. To use, create a div with an id=<any id name>, then create a dictionary with the proper values to pass into the draw_array function. Run the function, and the object will draw the visual where you put your div in the html code. NOTE: this knowledge object uses D3.JS, so to use it you have to include a script source to D3",
+  "description": "JavaScript object to generate visual representation of risk scores. To use, create a div with an id=<any id name>, then create a dictionary with the proper values to pass into the draw_array function. Run the function, and the object will draw the visual where you put your div in the html code. NOTE: this knowledge object uses D3.JS, so to use it you have to include a script source to D3",
   "citations": [""],
   "keywords": ["Icon array"],
   "hasServiceSpecification": "service.yaml",
